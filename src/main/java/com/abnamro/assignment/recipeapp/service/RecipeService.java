@@ -8,7 +8,6 @@ import com.abnamro.assignment.recipeapp.dto.IngredientDTO;
 import com.abnamro.assignment.recipeapp.dto.RecipeDTO;
 import com.abnamro.assignment.recipeapp.repository.RecipeRepository;
 import javassist.NotFoundException;
-import org.hibernate.mapping.Collection;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

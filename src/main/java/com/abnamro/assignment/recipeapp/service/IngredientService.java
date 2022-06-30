@@ -3,18 +3,14 @@ package com.abnamro.assignment.recipeapp.service;
 import com.abnamro.assignment.recipeapp.convertor.IngredientConvertor;
 import com.abnamro.assignment.recipeapp.convertor.RecipeConvertor;
 import com.abnamro.assignment.recipeapp.domain.Ingredient;
-import com.abnamro.assignment.recipeapp.domain.Recipe;
 import com.abnamro.assignment.recipeapp.dto.IngredientDTO;
 import com.abnamro.assignment.recipeapp.dto.RecipeDTO;
 import com.abnamro.assignment.recipeapp.repository.IngredientRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author Ali Tofigh 6/29/2022 4:49 PM

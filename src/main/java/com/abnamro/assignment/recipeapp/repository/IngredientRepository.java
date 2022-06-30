@@ -1,10 +1,8 @@
 package com.abnamro.assignment.recipeapp.repository;
 
 import com.abnamro.assignment.recipeapp.domain.Ingredient;
-import com.abnamro.assignment.recipeapp.domain.Recipe;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
 import java.util.Set;
 
 /**

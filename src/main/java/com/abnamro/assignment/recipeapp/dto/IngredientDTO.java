@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 /**
  * @author Ali Tofigh 6/29/2022 7:42 AM

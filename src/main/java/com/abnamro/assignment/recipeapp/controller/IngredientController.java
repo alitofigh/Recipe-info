@@ -1,18 +1,13 @@
 package com.abnamro.assignment.recipeapp.controller;
 
-import com.abnamro.assignment.recipeapp.domain.Ingredient;
-import com.abnamro.assignment.recipeapp.dto.IngredientD;
 import com.abnamro.assignment.recipeapp.dto.IngredientDTO;
 import com.abnamro.assignment.recipeapp.dto.RecipeDTO;
 import com.abnamro.assignment.recipeapp.service.IngredientService;
 import com.google.gson.Gson;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Set;
 
 /**
