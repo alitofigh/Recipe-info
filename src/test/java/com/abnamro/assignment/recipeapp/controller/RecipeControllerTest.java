@@ -2,6 +2,8 @@ package com.abnamro.assignment.recipeapp.controller;
 
 import com.abnamro.assignment.recipeapp.domain.Ingredient;
 import com.abnamro.assignment.recipeapp.domain.Recipe;
+import com.abnamro.assignment.recipeapp.dto.RecipeDTO;
+import com.abnamro.assignment.recipeapp.service.IngredientService;
 import com.abnamro.assignment.recipeapp.service.RecipeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.bytebuddy.agent.builder.AgentBuilder;
@@ -10,11 +12,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -27,7 +32,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  * @author Ali Tofigh 6/30/2022 12:51 PM
  */
 
-@WebMvcTest
+@SpringBootTest
+@AutoConfigureMockMvc
 class RecipeControllerTest {
 
     @Autowired
@@ -35,6 +41,9 @@ class RecipeControllerTest {
 
     @Mock
     RecipeService recipeService;
+
+    @Mock
+    IngredientService ingredientService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -69,11 +78,11 @@ class RecipeControllerTest {
     }
 
     @Test
-    void findRecipeById() throws Exception {
-        mockMvc.perform(get("/api/v1/list-all-recipe")
+    void findRecipeByVegetarian() throws Exception {
+        ResultActions perform = mockMvc.perform(get("/api/v1/find-recipe-by-vegetarian?vegetarian=0")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new Object())));
-        System.out.println("");
+                .content(objectMapper.writeValueAsString(new RecipeDTO())));
+        System.out.println("done");
     }
 
     @Test

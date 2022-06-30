@@ -47,7 +47,7 @@ public class RecipeController {
 
     @ApiOperation(value = "Get a recipe by recipeId", response = String.class)
     @GetMapping("find-recipe-by-vegetarian")
-    public String findRecipeById(@RequestParam("vegetarian") boolean vegetarian) {
+    public String findRecipeByVegetarian(@RequestParam("vegetarian") boolean vegetarian) {
         List<RecipeDTO> recipeDTOList = recipeService.findRecipeByVegetarian(vegetarian);
         return new Gson().toJson(recipeDTOList);
     }
