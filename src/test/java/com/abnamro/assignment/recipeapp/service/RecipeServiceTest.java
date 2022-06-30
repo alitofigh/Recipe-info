@@ -1,6 +1,5 @@
 package com.abnamro.assignment.recipeapp.service;
 
-import com.abnamro.assignment.recipeapp.convertor.IngredientConvertor;
 import com.abnamro.assignment.recipeapp.convertor.RecipeConvertor;
 import com.abnamro.assignment.recipeapp.domain.Ingredient;
 import com.abnamro.assignment.recipeapp.domain.Recipe;
@@ -12,15 +11,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
