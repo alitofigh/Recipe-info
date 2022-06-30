@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.google.gson.Gson;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import javassist.NotFoundException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
@@ -55,21 +56,11 @@ public class RecipeController {
         return new Gson().toJson(recipeDTOList);
     }
 
-    @ApiOperation(value = "Filter recipes", response = String.class)
-    @GetMapping("recipe-containing-ingredients")
-    public String findRecipeContainingIngredients(Set<IngredientDTO> ingredientDTOS) {
-        List<RecipeDTO> recipeContainingIngredients = recipeService.findRecipeContainingIngredients(ingredientDTOS);
-        return new Gson().toJson(recipeContainingIngredients);
+    @GetMapping("find-recipe-by-instruction")
+    public String findRecipeByInstruction(@RequestParam("search-text") String text) {
+        List<RecipeDTO> recipeDTOList = recipeService.findRecipeByInstruction(text);
+        return new Gson().toJson(recipeDTOList);
     }
-
-    @ApiOperation(value = "Filter recipes", response = String.class)
-    @GetMapping("recipe-not-containing-ingredients")
-    public String findRecipeNotContainingIngredients(Set<IngredientDTO> ingredientDTOS) {
-        List<RecipeDTO> recipeNotContainingIngredients =
-                recipeService.findRecipeNotContainingIngredients(ingredientDTOS);
-        return new Gson().toJson(recipeNotContainingIngredients);
-    }
-
 
     @ApiOperation(value = "Add a new recipe", response = String.class)
     @PostMapping(value = "/add-recipe", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -81,8 +72,9 @@ public class RecipeController {
 
     @ApiOperation(value = "Update a recipe", response = String.class)
     @PostMapping(value = "/update-recipe", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String updateRecipe(@RequestBody RecipeDTO recipeDTO) {
+    public String updateRecipe(@RequestBody RecipeDTO recipeDTO) throws NotFoundException {
         RecipeDTO recipeD = recipeService.findRecipeById(recipeDTO.getRecipeId());
+        //recipeService.updateRecipe(recipeDTO);
         if (recipeD != null) {
             recipeService.saveRecipe(recipeDTO);
             return "recipe updated successfully.";
@@ -121,6 +113,14 @@ public class RecipeController {
 
     @ExceptionHandler(HttpMediaTypeException.class)
     public ResponseEntity<BaseResponse> handleMediaTypeError(HttpMediaTypeNotSupportedException exception) {
+        logger.debug("Request processed: Response=media.error");
+        return new ResponseEntity<>(new BaseResponse("media.error", exception.getMessage(),
+                exception.getLocalizedMessage(), Objects.requireNonNull(exception.getContentType()).getType()),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<BaseResponse> handleNotFoundException(HttpMediaTypeNotSupportedException exception) {
         logger.debug("Request processed: Response=media.error");
         return new ResponseEntity<>(new BaseResponse("media.error", exception.getMessage(),
                 exception.getLocalizedMessage(), Objects.requireNonNull(exception.getContentType()).getType()),

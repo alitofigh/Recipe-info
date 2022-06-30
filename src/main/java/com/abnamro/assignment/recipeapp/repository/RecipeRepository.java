@@ -17,15 +17,17 @@ public interface RecipeRepository extends CrudRepository<Recipe, Long> {
 
     List<Recipe> findRecipeByVegetarian(boolean vegetarian);
 
+    List<Recipe> findRecipesByDescriptionContains(String description);
+
     List<Recipe> findRecipeByServings(Integer servings);
 
-    List<Recipe> findAllByIngredientsIn(Collection<Set<Ingredient>> ingredients);
+   // List<Recipe> findAllByIngredientsIn(Collection<Set<Ingredient>> ingredients);
 
-    List<Recipe> findAllByIngredientsIsNotIn(Collection<Set<Ingredient>> ingredients);
+    //List<Recipe> findAllByIngredientsIsNotIn(Collection<Set<Ingredient>> ingredients);
 
     //List<Recipe> findRecipeByIngredientsIsContaining(Set<Ingredient> ingredients);
 
-    //List<Recipe> findRecipeByIngredientsIsNotContaining(Set<Ingredient> ingredients);
+    List<Recipe> findDistinctFirstByIngredientsNotIn(Iterable<Ingredient> ingredients);
 
     Recipe findRecipeById(Long recipeId);
 

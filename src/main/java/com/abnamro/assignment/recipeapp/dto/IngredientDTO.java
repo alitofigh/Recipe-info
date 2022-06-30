@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -14,7 +15,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
-public class IngredientDTO {
+public class IngredientDTO implements Serializable {
     private Long id;
     private Long recipeId;
     private String description;

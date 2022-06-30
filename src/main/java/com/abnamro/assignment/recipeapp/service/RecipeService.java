@@ -7,6 +7,7 @@ import com.abnamro.assignment.recipeapp.domain.Recipe;
 import com.abnamro.assignment.recipeapp.dto.IngredientDTO;
 import com.abnamro.assignment.recipeapp.dto.RecipeDTO;
 import com.abnamro.assignment.recipeapp.repository.RecipeRepository;
+import javassist.NotFoundException;
 import org.hibernate.mapping.Collection;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +49,13 @@ public class RecipeService {
         return  recipeDTOList;
     }
 
+    public List<RecipeDTO> findRecipeByInstruction(String text) {
+        List<Recipe> recipes = recipeRepository.findRecipesByDescriptionContains(text);
+        List<RecipeDTO> recipeDTOList = new ArrayList<>();
+        recipes.forEach(recipe -> recipeDTOList.add(recipeConvertor.convertToDTO(recipe)));
+        return  recipeDTOList;
+    }
+
     public List<RecipeDTO> findRecipeByServing(Integer serving) {
         List<Recipe> recipes = recipeRepository.findRecipeByServings(serving);
         List<RecipeDTO> recipeDTOList = new ArrayList<>();
@@ -59,19 +67,18 @@ public class RecipeService {
         Set<Ingredient> ingredients = new HashSet<>();
         ingredientDTOS.forEach(ingredientDTO -> ingredients.add(ingredientConvertor.convertFromDTO(ingredientDTO)));
         //List<Recipe> recipes = recipeRepository.findRecipeByIngredientsIsContaining(ingredients);
-        List<Recipe> recipes = recipeRepository.findAllByIngredientsIn( ingredients);
+        //List<Recipe> recipes = recipeRepository.findAllByIngredientsIn( ingredients);
         List<RecipeDTO> recipeDTOList = new ArrayList<>();
-        recipes.forEach(recipe -> recipeDTOList.add(recipeConvertor.convertToDTO(recipe)));
+        //recipes.forEach(recipe -> recipeDTOList.add(recipeConvertor.convertToDTO(recipe)));
         return  recipeDTOList;
     }
 
     public List<RecipeDTO> findRecipeNotContainingIngredients(Set<IngredientDTO> ingredientDTOS) {
         Set<Ingredient> ingredients = new HashSet<>();
         ingredientDTOS.forEach(ingredientDTO -> ingredients.add(ingredientConvertor.convertFromDTO(ingredientDTO)));
-        //List<Recipe> recipes = recipeRepository.findRecipeByIngredientsIsNotContaining(ingredients);
-        List<Recipe> recipes = recipeRepository.findAllByIngredientsIsNotIn(ingredients);
+        List<Recipe> distinctByIngredientsNotIn = recipeRepository.findDistinctFirstByIngredientsNotIn(ingredients);
         List<RecipeDTO> recipeDTOList = new ArrayList<>();
-        recipes.forEach(recipe -> recipeDTOList.add(recipeConvertor.convertToDTO(recipe)));
+        distinctByIngredientsNotIn.forEach(recipe -> recipeDTOList.add(recipeConvertor.convertToDTO(recipe)));
         return  recipeDTOList;
     }
 
@@ -82,6 +89,15 @@ public class RecipeService {
     public void saveRecipe(RecipeDTO recipeDTO) {
         Recipe recipe = recipeConvertor.convertFromDTO(recipeDTO);
         recipeRepository.save(recipe);
+    }
+
+    public void updateRecipe(RecipeDTO recipeDTO) throws NotFoundException {
+        Recipe recipe = recipeRepository.findRecipeById(recipeDTO.getRecipeId());
+        if (recipe == null)
+            throw new NotFoundException("There is no recipe with id " + recipeDTO.getRecipeId());
+
+
+
     }
 
     @Transactional
