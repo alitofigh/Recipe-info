@@ -85,9 +85,9 @@ public class RecipeService {
         return recipeConvertor.convertToDTO(recipeRepository.findRecipeById(recipeId));
     }
 
-    public void saveRecipe(RecipeDTO recipeDTO) {
+    public Recipe saveRecipe(RecipeDTO recipeDTO) {
         Recipe recipe = recipeConvertor.convertFromDTO(recipeDTO);
-        recipeRepository.save(recipe);
+        return recipeRepository.save(recipe);
     }
 
     public void updateRecipe(RecipeDTO recipeDTO) throws NotFoundException {

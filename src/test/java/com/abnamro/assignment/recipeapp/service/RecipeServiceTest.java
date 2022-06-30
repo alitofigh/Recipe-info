@@ -1,5 +1,7 @@
 package com.abnamro.assignment.recipeapp.service;
 
+import com.abnamro.assignment.recipeapp.convertor.IngredientConvertor;
+import com.abnamro.assignment.recipeapp.convertor.RecipeConvertor;
 import com.abnamro.assignment.recipeapp.domain.Ingredient;
 import com.abnamro.assignment.recipeapp.domain.Recipe;
 import com.abnamro.assignment.recipeapp.dto.RecipeDTO;
@@ -35,9 +37,14 @@ class RecipeServiceTest {
     @InjectMocks
     RecipeService recipeService;
 
+    @Mock
+    RecipeConvertor recipeConvertor;
+
+    Recipe recipe;
+
     @BeforeEach
     public void setUp() {
-        Recipe recipe = new Recipe();
+        recipe = new Recipe();
         recipe.setServings(6);
         recipe.setName("Taco Soup");
         recipe.setCookTime(10);
@@ -46,8 +53,17 @@ class RecipeServiceTest {
                 "with warming tortillas in one pan, and seasoned beef sizzling in another, we’ve taken the ease " +
                 "of taco night and made it even better by soupifying it!");
         Ingredient ingredient1 = new Ingredient();
+        ingredient1.setId(1L);
         Ingredient ingredient2 = new Ingredient();
+        ingredient2.setId(2L);
         Ingredient ingredient3 = new Ingredient();
+        ingredient3.setId(3L);
+
+        recipe
+                .addIngredient(ingredient1)
+                .addIngredient(ingredient2)
+                .addIngredient(ingredient3);
+
     }
 
 
@@ -71,6 +87,7 @@ class RecipeServiceTest {
 
     @Test
     void findRecipeByServing() {
+        List<Recipe> recipeByServings = recipeRepository.findRecipeByServings(4);
     }
 
     @Test
@@ -88,6 +105,9 @@ class RecipeServiceTest {
 
     @Test
     void saveRecipe() {
+        RecipeDTO recipeDTO = recipeConvertor.convertToDTO(this.recipe);
+        Recipe savedRecipe = recipeService.saveRecipe(recipeDTO);
+        System.out.println(savedRecipe.getId());
     }
 
     @Test
